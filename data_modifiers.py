@@ -1,7 +1,7 @@
 import zlib
 
 def compress_data(data):
-    return zlib.compress(data)
+    return zlib.compress(data, 9)
 
 def decompress_data(data):
     return zlib.decompress(data)
@@ -9,8 +9,8 @@ def decompress_data(data):
 def parse_zlib_header(data):
     return data[4:]
 
-def generate_zlib_header(data):
-    return len(data).to_bytes(4, byteorder="little") + data
+def generate_zlib_header(data, size):
+    return size.to_bytes(4, byteorder="little") + data
 
 def sign_data(data):
     return bytes([

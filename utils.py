@@ -32,9 +32,12 @@ def validate_args(filename, mode):
         print("Supported modes: compress, decompress, c, d")
         exit(1)
     mode = mode[0]
-    if not os.path.isfile(filename):
+    if not os.path.exists(filename):
         print(f"File {filename} not found")
         exit(1)
+    filename = filename.replace("\\", "/")
+    if filename.endswith("/"):
+        filename = filename[:-1]
     return filename, mode
 
 def get_args():
@@ -43,6 +46,7 @@ def get_args():
     return filename, mode
 
 def parse_filename(filename):
+    filename = os.path.basename(filename)
     name, extension = os.path.splitext(filename)
     extension = extension[1:]
     return name, extension
@@ -57,3 +61,13 @@ def make_folders(filename):
     file_path = os.path.dirname(filename)
     if not os.path.isdir(file_path):
         os.makedirs(file_path)
+
+def fix_relative_path(filename):
+    if filename.startswith(".."):
+        return "_MAIN_" + filename[2:]
+    return filename
+
+def unfix_relative_path(filename):
+    if filename.startswith("_MAIN_"):
+        return ".." + filename[6:]
+    return filename
