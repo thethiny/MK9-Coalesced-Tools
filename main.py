@@ -1,4 +1,5 @@
 from typing import get_args
+
 from coalesced import extract_coalesced, repack_coalesced
 from utils import get_args
 
